@@ -40,7 +40,7 @@ Fit and forecast the Kumaraswamy Autoregressive and Moving Average (KARMA) model
 }
 \examples{
 x = rbeta(50, 2, 2)
-fit = KARMA(ts(x), 1, 1)
+fit = KARMA(ts(x), 0, 1)
 fit$fitted
 }
 \author{

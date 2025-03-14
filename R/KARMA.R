@@ -101,8 +101,17 @@ karma.fit<- function (y, ar, ma, a, b, link, names_phi,names_theta,names_beta,di
       mu <- linkinv(eta[(m+1):n])
       y1<-y[(m+1):n]
 
-      ll <- suppressWarnings( log( dkum(y1,mu,prec) ) )
+
+      ## error handling  ## by Fiorucci, 11-03-2025
+      ### ll <- suppressWarnings( log( dkum(y1,mu,prec) ) )
+      out1 = dkum(y1,mu,prec)
+      out1[ out1< 1/(10^200) ] = 1/(10^200)
+      ll = log(out1)
+      rm(out1)
+      ##
+
       sum(ll)
+
     }
 
     escore <- function(z)
@@ -170,6 +179,8 @@ karma.fit<- function (y, ar, ma, a, b, link, names_phi,names_theta,names_beta,di
       Uprec <- sum(a)
 
       rval <- c(Ualpha,Uphi,Utheta,Uprec)
+
+      rval
     }
     names_par <- c("alpha",names_phi,names_theta,"precision")
 
@@ -333,8 +344,18 @@ karma.fit<- function (y, ar, ma, a, b, link, names_phi,names_theta,names_beta,di
       mu <- linkinv(eta[(m+1):n])
       y1<-y[(m+1):n]
 
-      ll <- suppressWarnings( log( dkum(y1,mu,prec) ) )
+      ## error handling  ## by Fiorucci, 11-03-2025
+      ### ll <- suppressWarnings( log( dkum(y1,mu,prec) ) )
+      out1 = dkum(y1,mu,prec)
+      out1[ out1< 1/(10^200) ] = 1/(10^200)
+      ll = log(out1)
+      rm(out1)
+      ##
+
       sum(ll)
+
+
+
     }
 
     escore <- function(z)
@@ -506,8 +527,18 @@ karma.fit<- function (y, ar, ma, a, b, link, names_phi,names_theta,names_beta,di
       mu <- linkinv(eta[(m+1):n])
       y1<-y[(m+1):n]
 
-      ll <- suppressWarnings( log( dkum(y1,mu,prec) ) )
+
+      ## error handling  ## by Fiorucci, 11-03-2025
+      ### ll <- suppressWarnings( log( dkum(y1,mu,prec) ) )
+      out1 = dkum(y1,mu,prec)
+      out1[ out1< 1/(10^200) ] = 1/(10^200)
+      ll = log(out1)
+      rm(out1)
+      ##
+
       sum(ll)
+
+
     }
 
     escore <- function(z)
@@ -1018,8 +1049,17 @@ karma.fit<- function (y, ar, ma, a, b, link, names_phi,names_theta,names_beta,di
       mu <- linkinv(eta[(m+1):n])
       y1<-y[(m+1):n]
 
-      ll <- suppressWarnings( log( dkum(y1,mu,prec) ) )
+
+      ## error handling  ## by Fiorucci, 11-03-2025
+      ### ll <- suppressWarnings( log( dkum(y1,mu,prec) ) )
+      out1 = dkum(y1,mu,prec)
+      out1[ out1< 1/(10^200) ] = 1/(10^200)
+      ll = log(out1)
+      rm(out1)
+      ##
+
       sum(ll)
+
     }
 
     escore <- function(z)
@@ -1245,7 +1285,15 @@ karma.fit<- function (y, ar, ma, a, b, link, names_phi,names_theta,names_beta,di
       mu <- linkinv(eta[(m+1):n])
       y1<-y[(m+1):n]
 
-      ll <- suppressWarnings( log( dkum(y1,mu,prec) ) )
+
+      ## error handling  ## by Fiorucci, 11-03-2025
+      ### ll <- suppressWarnings( log( dkum(y1,mu,prec) ) )
+      out1 = dkum(y1,mu,prec)
+      out1[ out1< 1/(10^200) ] = 1/(10^200)
+      ll = log(out1)
+      rm(out1)
+      ##
+
       sum(ll)
     }
 
@@ -1757,7 +1805,7 @@ karma.fit<- function (y, ar, ma, a, b, link, names_phi,names_theta,names_beta,di
 #' @returns return a list with several informations about the model
 #' @examples
 #' x = rbeta(50, 2, 2)
-#' fit = KARMA(ts(x), 1, 1)
+#' fit = KARMA(ts(x), 0, 1)
 #' fit$fitted
 #' @author José G S Sena, Fabio M Bayer, Paulo H. Ferreira, José A Fiorucci
 #' @export
@@ -1792,6 +1840,7 @@ KARMA<- function (y, ar=NA, ma=NA, link="logit",h=6,X=NA,X_hat=NA,resid=3)
 
   if(any(is.na(ma))==F) names_theta<-c(paste("theta",ma,sep=""))
 
+  names_beta = NA
   if(any(is.na(X))==F)
   {
     names_beta<-c(paste("beta",1:ncol( as.matrix(X) ),sep=""))
